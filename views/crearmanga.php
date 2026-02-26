@@ -4,11 +4,13 @@ if (!isset($_SESSION['usuario'])) {
     header("Location: login.php");
     exit;
 }
+include __DIR__ . '/../public/header.php'; 
 ?>
+
 
 <h2>Agregar nuevo manga</h2>
 
-<form action="../controllers/CrearMangaController.php" method="POST">
+<form action="../controllers/crearmangacontroller.php" method="POST" enctype="multipart/form-data">
 
     <label>Nombre del manga</label><br>
     <input type="text" name="nommangas" required><br><br>
@@ -23,7 +25,10 @@ if (!isset($_SESSION['usuario'])) {
     <input type="number" name="cantcapitulosmangas"><br><br>
 
     <label>Cantidad de tomos</label><br>
-    <input type="number" name="cantvolmangas"><br><br>
+    <input type="number" name="cantvolmangas" id="cantVol" min="1" onchange="generarVolumenes()"><br><br>
+
+    <h3>Portadas de volúmenes</h3>
+    <div id="contenedor-volumenes"></div>
 
     <label>Stock</label><br>
     <input type="number" name="stockmangas" required><br><br>
@@ -34,5 +39,26 @@ if (!isset($_SESSION['usuario'])) {
     <label>Descripción</label><br>
     <textarea name="descripcionmangas"></textarea><br><br>
 
+    <label>Imagen del manga</label><br>
+    <input type="file" name="imagen" accept="image/*"><br><br>
+
+
     <button type="submit">Guardar manga</button>
 </form>
+<script>
+function generarVolumenes() {
+    const cantidad = document.getElementById("cantVol").value;
+    const contenedor = document.getElementById("contenedor-volumenes");
+
+    contenedor.innerHTML = "";
+
+    for (let i = 1; i <= cantidad; i++) {
+        contenedor.innerHTML += `
+            <div style="margin-bottom:10px;">
+                <strong>Volumen ${i}</strong><br>
+                <input type="file" name="portada_volumen_${i}" accept="image/*">
+            </div>
+        `;
+    }
+}
+</script>

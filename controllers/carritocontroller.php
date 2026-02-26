@@ -7,9 +7,11 @@ if (!isset($_SESSION['usuario'])) {
 }
 
 $id = $_POST['idmanga'];
-$nombre = $_POST['nombre'];
-$precio = $_POST['precio'];
-$stock = $_POST['stock'];
+$nombre = $_POST['nommangas'];
+$precio = $_POST['preciomangas'];
+$stock = $_POST['stockmangas'];
+$volumen = $_POST['volumen'] ?? "General";
+
 
 if (!isset($_SESSION['carrito'])) {
     $_SESSION['carrito'] = [];
@@ -22,12 +24,16 @@ if (isset($_SESSION['carrito'][$id])) {
     }
 
 } else {
-    $_SESSION['carrito'][$id] = [
-        'nombre' => $nombre,
-        'precio' => $precio,
-        'cantidad' => 1,
-        'stock' => $stock
-    ];
+  $clave = $id . "_vol" . $volumen;
+
+$_SESSION['carrito'][$clave] = [
+    'nombre' => $nombre,
+    'precio' => $precio,
+    'cantidad' => 1,
+    'stock' => $stock,
+    'volumen' => $volumen
+];
+
 }
 
 header("Location: ../public/index.php");
