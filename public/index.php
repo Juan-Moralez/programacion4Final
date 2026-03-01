@@ -5,7 +5,7 @@ if (!isset($_SESSION['usuario'])) {
     exit;
 }
 
-require_once __DIR__ . '/../controllers/MangaCon.php';
+require_once __DIR__ . '/../controllers/mangaCon.php';
 include __DIR__ . '/../public/header.php';
 ?>
 
@@ -19,10 +19,11 @@ include __DIR__ . '/../public/header.php';
                 <h3><?= htmlspecialchars($manga['nommangas']) ?></h3>
 
                 <img 
-                    src="<?= htmlspecialchars($manga['imagen_url'] ?: 'img/mangas/default.jpg') ?>" 
-                    alt="<?= htmlspecialchars($manga['nommangas']) ?>"
-                    class="manga-img"
-                >
+    src="../public/<?= htmlspecialchars($manga['imagen_url'] ?: 'img/portadas/default.jpg') ?>" 
+    alt="<?= htmlspecialchars($manga['nommangas']) ?>"
+    class="manga-img"
+>
+
 
                 <p>Autor: <?= htmlspecialchars($manga['autormangas']) ?></p>
                 <p>Precio: $<?= $manga['preciomangas'] ?></p>
@@ -43,7 +44,7 @@ include __DIR__ . '/../public/header.php';
 
 
                 <?php if ($_SESSION['usuario']['rol'] === 'admin'): ?>
-                    <form action="../controllers/eliminarmangacontroller.php" method="POST">
+                    <form action="../controllers/eliminarmangacontroller.php"method="POST">
                         <input type="hidden" name="idmangas" value="<?= $manga['idmangas'] ?>">
                         <button type="submit" onclick="return confirm('¿Eliminar?')">
                             Eliminar

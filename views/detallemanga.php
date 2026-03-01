@@ -21,6 +21,7 @@ $stmtVol = $pdo->prepare("
     SELECT id_volumen, nro_volumen, portada_url 
     FROM volumenes_manga 
     WHERE id_manga = ?
+    ORDER BY nro_volumen ASC
 ");
 $stmtVol->execute([$idManga]);
 $volumenes = $stmtVol->fetchAll(PDO::FETCH_ASSOC);
@@ -34,45 +35,58 @@ $volumenes = $stmtVol->fetchAll(PDO::FETCH_ASSOC);
 
     <div class="manga-grid-detalle">
 
-       
-
         <div class="manga-info">
+
             <h1><?= htmlspecialchars($manga['nommangas']) ?></h1>
-             <div class="manga-portada">
-            <img 
-                id="portada-actual"
-                src="../public/<?= htmlspecialchars($manga['imagen_url'] ?: 'img/portadas/default.jpg') ?>"
-                alt="<?= htmlspecialchars($manga['nommangas']) ?>">
-        </div>
+
+            <!-- ===== PORTADA ===== -->
+            <div class="manga-portada">
+                <img 
+                    id="portada-actual"
+                    src="<?php
+                        if (!empty($volumenes)) {
+                            echo '../public/' . htmlspecialchars($volumenes[0]['portada_url']);
+                        } else {
+                            echo '../public/' . htmlspecialchars($manga['imagen_url'] ?: 'img/portadas/default.jpg');
+                        }
+                    ?>"
+                    alt="<?= htmlspecialchars($manga['nommangas']) ?>"
+                >
+            </div>
+
             <p><strong>Autor:</strong> <?= htmlspecialchars($manga['autormangas']) ?></p>
-            <p><?= htmlspecialchars($manga['descripcionmangas']) ?></p>
 
-            <label>Elegir volumen:</label>
+            <p class="descripcion-manga">
+                <?= nl2br(htmlspecialchars($manga['descripcionmangas'])) ?>
+            </p>
 
-<form action="../controllers/carritocontroller.php" method="POST">
+            <!-- ===== SELECTOR SOLO SI HAY MÁS DE 1 ===== -->
+            <?php if (count($volumenes) > 1): ?>
+                <label>Elegir volumen:</label>
 
-    <input type="hidden" name="idmanga" value="<?= $manga['idmangas'] ?>">
-    <input type="hidden" name="nommangas" value="<?= $manga['nommangas'] ?>">
-    <input type="hidden" name="preciomangas" value="<?= $manga['preciomangas'] ?>">
-    <input type="hidden" name="stockmangas" value="<?= $manga['stockmangas'] ?>">
+                <select id="selector-volumen" onchange="cambiarPortada(this)">
+                    <?php foreach ($volumenes as $vol): ?>
+                        <option 
+                            value="<?= $vol['nro_volumen'] ?>"
+                            data-img="../public/<?= htmlspecialchars($vol['portada_url']) ?>">
+                            Volumen <?= $vol['nro_volumen'] ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            <?php endif; ?>
 
-    <select id="selector-volumen" name="volumen" onchange="cambiarPortada(this)" required>
-        <option value="">Elegir volumen...</option>
+            <!-- ===== COMPRAR ===== -->
+            <form action="../controllers/carritocontroller.php" method="POST">
+                <input type="hidden" name="idmanga" value="<?= $manga['idmangas'] ?>">
+                <input type="hidden" name="nommangas" value="<?= $manga['nommangas'] ?>">
+                <input type="hidden" name="preciomangas" value="<?= $manga['preciomangas'] ?>">
+                <input type="hidden" name="stockmangas" value="<?= $manga['stockmangas'] ?>">
+                <input type="hidden" id="input-volumen" name="volumen" value="<?= !empty($volumenes) ? $volumenes[0]['nro_volumen'] : 1 ?>">
 
-        <?php foreach ($volumenes as $vol): ?>
-            <option 
-                value="<?= $vol['nro_volumen'] ?>"
-                data-img="../public/<?= htmlspecialchars($vol['portada_url']) ?>">
-                Volumen <?= $vol['nro_volumen'] ?>
-            </option>
-        <?php endforeach; ?>
-    </select>
+                <button type="submit">🛒 Comprar</button>
+            </form>
 
-    <button type="submit">🛒 Comprar</button>
-
-</form>
-
-
+            <!-- ===== WISHLIST ===== -->
             <form action="../controllers/deseadoscon.php" method="POST">
                 <input type="hidden" name="idmanga" value="<?= $manga['idmangas'] ?>">
                 <button type="submit">❤️ Añadir a deseados</button>
@@ -86,6 +100,9 @@ $volumenes = $stmtVol->fetchAll(PDO::FETCH_ASSOC);
 function cambiarPortada(select) {
     const opcion = select.options[select.selectedIndex];
     const imagen = opcion.getAttribute('data-img');
+    const volumen = opcion.value;
+
     document.getElementById('portada-actual').src = imagen;
+    document.getElementById('input-volumen').value = volumen;
 }
 </script>

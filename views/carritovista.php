@@ -21,18 +21,23 @@ include __DIR__ . '/../public/header.php';
                 $subtotal = $item['precio'] * $item['cantidad'];
                 $total += $subtotal;
             ?>
-                <div class="manga-card" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; padding: 10px; background: white; border-radius: 5px;">
-                    <div>
-                        <strong><?= htmlspecialchars($item['nombre']) ?></strong><br>
-                            Volumen: <?= htmlspecialchars($item['volumen']) ?><br>
-                            Cantidad: <?= $item['cantidad'] ?> | Precio: $<?= $item['precio'] ?>
+                <div class="manga-card-carrito">
+    <div>
+        <strong><?= htmlspecialchars($item['nombre']) ?></strong><br>
 
-                    </div>
-                    <div>
-                        <span>Subtotal: $<?= $subtotal ?></span>
-                        <a href="../controllers/eliminarcarritocon.php?id=<?= $id ?>" style="color: red; margin-left: 15px; text-decoration: none;">❌</a>
-                    </div>
-                </div>
+        <?php if (!empty($item['volumen'])): ?>
+            Volumen: <?= $item['volumen'] ?><br>
+        <?php endif; ?>
+
+        Cantidad: <?= $item['cantidad'] ?> | Precio: $<?= $item['precio'] ?>
+    </div>
+
+    <div>
+        Subtotal: $<?= $subtotal ?>
+        <a href="../controllers/eliminarcarritocon.php?id=<?= $id ?>">❌</a>
+    </div>
+</div>
+
             <?php endforeach; ?>
 
             <div style="text-align: right; margin-top: 20px; padding: 20px; background: #333; color: white; border-radius: 5px;">
