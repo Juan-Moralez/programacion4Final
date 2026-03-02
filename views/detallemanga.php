@@ -39,7 +39,7 @@ $volumenes = $stmtVol->fetchAll(PDO::FETCH_ASSOC);
 
             <h1><?= htmlspecialchars($manga['nommangas']) ?></h1>
 
-            <!-- ===== PORTADA ===== -->
+            
             <div class="manga-portada">
                 <img 
                     id="portada-actual"
@@ -60,7 +60,7 @@ $volumenes = $stmtVol->fetchAll(PDO::FETCH_ASSOC);
                 <?= nl2br(htmlspecialchars($manga['descripcionmangas'])) ?>
             </p>
 
-            <!-- ===== SELECTOR SOLO SI HAY MÁS DE 1 ===== -->
+            
             <?php if (count($volumenes) > 1): ?>
                 <label>Elegir volumen:</label>
 
@@ -75,7 +75,7 @@ $volumenes = $stmtVol->fetchAll(PDO::FETCH_ASSOC);
                 </select>
             <?php endif; ?>
 
-            <!-- ===== COMPRAR ===== -->
+            
             <form action="../controllers/carritocontroller.php" method="POST">
                 <input type="hidden" name="idmanga" value="<?= $manga['idmangas'] ?>">
                 <input type="hidden" name="nommangas" value="<?= $manga['nommangas'] ?>">
@@ -86,7 +86,7 @@ $volumenes = $stmtVol->fetchAll(PDO::FETCH_ASSOC);
                 <button type="submit">🛒 Comprar</button>
             </form>
 
-            <!-- ===== WISHLIST ===== -->
+            
             <form action="../controllers/deseadoscon.php" method="POST">
                 <input type="hidden" name="idmanga" value="<?= $manga['idmangas'] ?>">
                 <button type="submit">❤️ Añadir a deseados</button>
@@ -106,3 +106,4 @@ function cambiarPortada(select) {
     document.getElementById('input-volumen').value = volumen;
 }
 </script>
+

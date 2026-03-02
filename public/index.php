@@ -27,20 +27,21 @@ include __DIR__ . '/../public/header.php';
 
                 <p>Autor: <?= htmlspecialchars($manga['autormangas']) ?></p>
                 <p>Precio: $<?= $manga['preciomangas'] ?></p>
+                <div class="manga-actions">
+                    <a href="../views/detallemanga.php?id=<?= $manga['idmangas'] ?>" class="btn-detalle">
+                        Ver mas
+                    </a>
 
-                <a href="../views/detallemanga.php?id=<?= $manga['idmangas'] ?>" class="btn-detalle">
-                    Ver más
-                </a>
-
-                <!-- BOTÓN CORRECTO PARA TU CONTROLLER -->
-                <form action="../controllers/carritocontroller.php" method="POST">
-    <input type="hidden" name="idmanga" value="<?= $manga['idmangas'] ?>">
-    <input type="hidden" name="nommangas" value="<?= htmlspecialchars($manga['nommangas']) ?>">
-    <input type="hidden" name="preciomangas" value="<?= $manga['preciomangas'] ?>">
-    <input type="hidden" name="stockmangas" value="<?= $manga['stockmangas'] ?>">
-    <input type="hidden" name="volumen" value="1"> <!-- compra general sin volumen -->
-    <button type="submit">Agregar al carrito</button>
-</form>
+           
+                    <form action="../controllers/carritocontroller.php" method="POST">
+                        <input type="hidden" name="idmanga" value="<?= $manga['idmangas'] ?>">
+                        <input type="hidden" name="nommangas" value="<?= htmlspecialchars($manga['nommangas']) ?>">
+                        <input type="hidden" name="preciomangas" value="<?= $manga['preciomangas'] ?>">
+                        <input type="hidden" name="stockmangas" value="<?= $manga['stockmangas'] ?>">
+                        <input type="hidden" name="volumen" value="1">
+                        <button type="submit">Agregar al carrito</button>
+                    </form>
+                </div>
 
 
                 <?php if ($_SESSION['usuario']['rol'] === 'admin'): ?>
@@ -56,3 +57,4 @@ include __DIR__ . '/../public/header.php';
         <?php endforeach; ?>
     </div>
 </div>
+

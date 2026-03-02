@@ -7,7 +7,7 @@ if (!isset($_SESSION['usuario'])) {
     exit;
 }
 
-$idUsuario = $_SESSION['usuario']['id']; // ← mismo nombre en todo el sistema
+$idUsuario = $_SESSION['usuario']['id']; 
 
 if (!empty($_POST['idmanga'])) {
     $idManga = $_POST['idmanga'];
@@ -21,3 +21,4 @@ if (!empty($_POST['idmanga'])) {
 
 header("Location: ../views/wishlist.php");
 exit;
+

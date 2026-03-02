@@ -2,6 +2,11 @@
 session_start();
 require_once __DIR__ . '/../config/bd.php';
 
+if (!isset($_SESSION['usuario'])) {
+    header("Location: login.php");
+    exit;
+}
+
 include __DIR__ . '/../public/header.php';
 
 $idUsuario = $_SESSION['usuario']['id'];

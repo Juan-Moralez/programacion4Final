@@ -1,12 +1,11 @@
 <?php
 session_start();
-// Si el usuario no está logueado, redirigir
+
 if (!isset($_SESSION['usuario'])) {
     header("Location: login.php");
     exit;
 }
 
-// Como carritovista.php está en /views y header.php en /public:
 include __DIR__ . '/../public/header.php'; 
 ?>
 

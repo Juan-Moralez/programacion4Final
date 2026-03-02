@@ -9,7 +9,7 @@ if (!isset($_POST['token'], $_POST['password'])) {
 $token = $_POST['token'];
 $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
-/* VALIDAR TOKEN */
+
 $stmt = $pdo->prepare("
     SELECT idusuarios 
     FROM usuarios
@@ -23,7 +23,7 @@ if (!$user) {
     die("Token inválido o expirado");
 }
 
-/* ACTUALIZAR PASSWORD */
+
 $stmt = $pdo->prepare("
     UPDATE usuarios 
     SET contrausuarioscol = ?, 
@@ -33,9 +33,10 @@ $stmt = $pdo->prepare("
 ");
 $stmt->execute([$password, $user['idusuarios']]);
 
-/* MENSAJE TEMPORAL */
+
 $_SESSION['password_actualizada'] = true;
 
-/* REDIRIGIR */
+
 header("Location: ../views/login.php");
 exit;
+

@@ -25,7 +25,7 @@ if (isset($_POST['login'])) {
             'id' => $user['idusuarios'],
             'nombre' => $user['nomusuarios'],
             'email' => $user['emailusuarios'],
-            'rol' => $user['rolusuarios']   // 👈 CLAVE
+            'rol' => $user['rolusuarios']   
         ];
 
         header("Location: ../public/index.php");
@@ -35,4 +35,5 @@ if (isset($_POST['login'])) {
         echo "Credenciales incorrectas";
     }
 }
+
 

@@ -9,7 +9,7 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
 
 $idManga = $_GET['id'];
 
-/* ===== MANGA ===== */
+
 $stmt = $pdo->prepare("SELECT * FROM mangas WHERE idmangas = ?");
 $stmt->execute([$idManga]);
 $manga = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -18,7 +18,7 @@ if (!$manga) {
     die("El manga no existe.");
 }
 
-/* ===== VOLUMENES ===== */
+
 $stmtVol = $pdo->prepare("
     SELECT id_volumen, nro_volumen, portada_url 
     FROM volumenes_manga 
@@ -36,7 +36,7 @@ $volumenes = $stmtVol->fetchAll(PDO::FETCH_ASSOC);
 
     <div class="manga-grid-detalle">
 
-        <!-- ===== PORTADA ===== -->
+        
         <div class="manga-portada">
             <img 
                 id="portada-actual"
@@ -44,7 +44,7 @@ $volumenes = $stmtVol->fetchAll(PDO::FETCH_ASSOC);
                 alt="<?= htmlspecialchars($manga['nommangas']) ?>">
         </div>
 
-        <!-- ===== INFO ===== -->
+        
         <div class="manga-info">
 
             <h1><?= htmlspecialchars($manga['nommangas']) ?></h1>
@@ -53,7 +53,7 @@ $volumenes = $stmtVol->fetchAll(PDO::FETCH_ASSOC);
 
             <hr>
 
-            <!-- ===== SELECTOR ===== -->
+            
             <label for="selector-volumen">Elegir volumen:</label>
 
             <select id="selector-volumen" onchange="cambiarPortada(this)">
@@ -71,7 +71,7 @@ $volumenes = $stmtVol->fetchAll(PDO::FETCH_ASSOC);
 
             <hr>
 
-            <!-- ===== COMPRAR ===== -->
+            
             <form action="../controllers/carritocontroller.php" method="POST">
                 <input type="hidden" name="idmanga" value="<?= $manga['idmangas'] ?>">
                 <input type="hidden" name="nommangas" value="<?= $manga['nommangas'] ?>">
@@ -80,8 +80,8 @@ $volumenes = $stmtVol->fetchAll(PDO::FETCH_ASSOC);
                 <button type="submit" class="btn-comprar">🛒 Comprar</button>
             </form>
 
-            <!-- ===== WISHLIST ===== -->
-            <form action="../controllers/DeseadosController.php" method="POST">
+            
+            <form action="../controllers/deseadoscon.php" method="POST">
                 <input type="hidden" name="idmanga" value="<?= $manga['idmangas'] ?>">
                 <button type="submit" class="btn-wishlist">❤️ Añadir a deseados</button>
             </form>
@@ -97,3 +97,4 @@ function cambiarPortada(select) {
     document.getElementById('portada-actual').src = imagen;
 }
 </script>
+

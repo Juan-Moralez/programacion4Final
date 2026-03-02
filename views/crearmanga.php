@@ -1,7 +1,7 @@
 <?php
 session_start();
-if (!isset($_SESSION['usuario'])) {
-    header("Location: login.php");
+if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['rol'] !== 'admin') {
+    header("Location: ../public/index.php");
     exit;
 }
 include __DIR__ . '/../public/header.php'; 
@@ -24,7 +24,7 @@ include __DIR__ . '/../public/header.php';
     <label>Cantidad de capítulos</label><br>
     <input type="number" name="cantcapitulosmangas"><br><br>
 
-    <!-- ✅ PORTADA PRINCIPAL -->
+    
     <label>Portada principal del manga</label><br>
     <input type="file" name="imagen" accept="image/*" required><br><br>
 
@@ -66,4 +66,5 @@ function generarVolumenes() {
     }
 }
 </script>
+
 
